@@ -1,0 +1,43 @@
+name: Trigger auto deployment for tryagain
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/tryagain-AutoDeployTrigger-da0e5e26-2d7a-4d58-a41a-20d9b3582cce.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.TRYAGAIN_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: scliregistry.azurecr.io
+          registryUsername: ${{ secrets.TRYAGAIN_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.TRYAGAIN_REGISTRY_PASSWORD }}
+          containerAppName: tryagain
+          resourceGroup: scli-resources
+          imageToBuild: scliregistry.azurecr.io/tryagain:${{ github.sha }}
+          
+            
+
+     
+
