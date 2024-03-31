@@ -53,7 +53,7 @@ func settingRoutes() {
 	count := 0
 	http.HandleFunc("/v1/echo", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s", "echoing "+strconv.Itoa(count))
-		count++
+		count += 2
 	})
 
 	arr := []string{"Tito", "Cyrus", "Jen", "Scott", "Joke", "Go"}
