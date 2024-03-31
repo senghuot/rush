@@ -1,5 +1,5 @@
 # Use a specific platform for the base image
-FROM --platform=linux/amd64 golang:1.22-alpine AS builder
+FROM --platform=linux/amd64 golang:1.19 AS build
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ RUN GOOS=linux GOARCH=amd64 go build -o ./bin/dist .
 FROM gcr.io/distroless/static-debian11
 
 # Copy the compiled binary from the builder stage
-COPY --from=builder /app/bin/dist /app/
+COPY --from=build /app/bin/dist /app/
 
 # Run the binary
 CMD ["/app/dist"]
