@@ -1,5 +1,5 @@
 # Set the Current Working Directory inside the container
-FROM golang:1.19
+FROM golang:1.22
 WORKDIR /app
 
 # Add files to app folder
