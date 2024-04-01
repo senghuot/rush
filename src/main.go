@@ -56,6 +56,10 @@ func settingRoutes() {
 		count += 2
 	})
 
+	http.HandleFunc("/v1/hello", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "%s", "Hello World")
+	})
+
 	arr := []string{"Tito", "Cyrus", "Jen", "Scott", "Joke", "Go"}
 	http.HandleFunc("/v1/random", func(w http.ResponseWriter, r *http.Request) {
 		index := rand.Intn(len(arr))
