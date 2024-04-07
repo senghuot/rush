@@ -39,6 +39,12 @@ func getJoke() Joke {
 
 func main() {
 	settingRoutes()
+
+	port := "80"
+	fmt.Print("Starting server at port " + port + "...\n")
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		fmt.Print("Error starting server: ", err)
+	}
 }
 
 func settingRoutes() {
@@ -57,7 +63,7 @@ func settingRoutes() {
 	})
 
 	http.HandleFunc("/v1/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "%s", "Hello World")
+		fmt.Fprintf(w, "%s", "Hello World Scott :)")
 	})
 
 	arr := []string{"Tito", "Cyrus", "Jen", "Scott", "Joke", "Go"}
@@ -65,11 +71,4 @@ func settingRoutes() {
 		index := rand.Intn(len(arr))
 		fmt.Fprintf(w, "%s", arr[index])
 	})
-
-	port := "80"
-
-	fmt.Print("Starting server at port " + port + "...\n")
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		fmt.Print("Error starting server: ", err)
-	}
 }
